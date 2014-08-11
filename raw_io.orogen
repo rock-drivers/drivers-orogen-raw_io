@@ -1,0 +1,9 @@
+name "raw_io"
+version "1"
+
+import_types_from "base"
+using_library "raw_io"
+import_types_from "raw_io/Analog.hpp"
+import_types_from "raw_io/Digital.hpp"
+
+typekit.export_types "raw_io/Analog", "raw_io/Digital"

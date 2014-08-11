@@ -1,0 +1,8 @@
+<package>
+  <description brief="oroGen package to wrap the types from drivers/raw_io">
+  </description>
+  <author>Sylvain Joyeux/sylvain.joyeux@centro-inovacao-robotica.com.br</author>
+  <license>LGPLv2 or later</license>
+  <depend package="drivers/raw_io" />
+  <depend package="base/orogen/types" />
+</package>
