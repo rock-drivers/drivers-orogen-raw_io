@@ -7,3 +7,4 @@ import_types_from "raw_io/Analog.hpp"
 import_types_from "raw_io/Digital.hpp"
 
 typekit.export_types "raw_io/Analog", "raw_io/Digital"
+typekit.export_types "/std/vector<raw_io/Analog>", "/std/vector<raw_io/Digital>"
