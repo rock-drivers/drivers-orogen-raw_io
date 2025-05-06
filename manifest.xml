@@ -5,4 +5,5 @@
   <license>LGPLv2 or later</license>
   <depend package="drivers/raw_io" />
   <depend package="base/orogen/types" />
+  <test_depend package="tools/syskit" />
 </package>
