@@ -36,9 +36,9 @@ describe OroGen.raw_io.LinearTemperatureSensorTask do
         result = expect_execution { syskit_write @task.analog_samples_port, @analog_input }
                  .to { have_one_new_sample task.temperatures_port }
 
-        assert_equal @temperatures[0].kelvin, result[0].kelvin
-        assert_equal @temperatures[1].kelvin, result[1].kelvin
-        assert_equal @temperatures[2].kelvin, result[2].kelvin
+        assert_in_delta(@temperatures[0].kelvin, result[0].kelvin, 1e-3)
+        assert_in_delta(@temperatures[1].kelvin, result[1].kelvin, 1e-3)
+        assert_in_delta(@temperatures[2].kelvin, result[2].kelvin, 1e-3)
     end
 
     it "does not output temperatures when there is no analog samples" do

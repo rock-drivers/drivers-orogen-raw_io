@@ -19,12 +19,12 @@ Temperature temperature(base::Time const& timestamp,
     double voltage,
     LinearTemperatureSensorSettings const& sensor_config)
 {
-    return Temperature::fromKelvin(timestamp,
-        sensor_config.min_temperature.kelvin +
-            ((voltage - sensor_config.min_voltage) *
-                (sensor_config.max_temperature.kelvin -
-                    sensor_config.min_temperature.kelvin)) /
-                (sensor_config.max_voltage - sensor_config.min_voltage));
+    auto temperature =
+        sensor_config.min_temperature +
+        (voltage - sensor_config.min_voltage) *
+            ((sensor_config.max_temperature - sensor_config.min_temperature) *
+                (1 / (sensor_config.max_voltage - sensor_config.min_voltage)));
+    return Temperature(timestamp, temperature);
 }
 
 std::vector<Temperature> convertVoltagesToTemperatures(base::Time const& timestamp,
