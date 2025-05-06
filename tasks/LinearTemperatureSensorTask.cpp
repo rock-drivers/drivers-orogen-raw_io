@@ -16,13 +16,14 @@ LinearTemperatureSensorTask::~LinearTemperatureSensorTask()
 
 // Convert the voltage in temperature
 Temperature temperature(base::Time const& timestamp,
-    double const& voltage,
+    double voltage,
     TemperatureSensorSettings const& sensor_config)
 {
-    return Temperature::fromCelsius(timestamp,
-        sensor_config.min_temperature +
+    return Temperature::fromKelvin(timestamp,
+        sensor_config.min_temperature.kelvin +
             ((voltage - sensor_config.min_voltage) *
-                (sensor_config.max_temperature - sensor_config.min_temperature)) /
+                (sensor_config.max_temperature.kelvin -
+                    sensor_config.min_temperature.kelvin)) /
                 (sensor_config.max_voltage - sensor_config.min_voltage));
 }
 
