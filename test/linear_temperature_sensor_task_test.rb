@@ -12,7 +12,7 @@ describe OroGen.raw_io.LinearTemperatureSensorTask do
         @task = syskit_deploy(
             OroGen.raw_io.LinearTemperatureSensorTask
         )
-        sensor_config = Types.raw_io.TemperatureSensorSettings.new
+        sensor_config = Types.raw_io.LinearTemperatureSensorSettings.new
         sensor_config.min_voltage = 0
         sensor_config.max_voltage = 100
         sensor_config.min_temperature = Types.base.Temperature.new(kelvin: 273.15)

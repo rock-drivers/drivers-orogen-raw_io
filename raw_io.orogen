@@ -16,7 +16,7 @@ task_context "LinearTemperatureSensorTask" do
   # transition to a setup where all components use a configuration step.
   needs_configuration
 
-  property "sensor_config", "/raw_io/TemperatureSensorSettings"
+  property "sensor_config", "/raw_io/LinearTemperatureSensorSettings"
 
   input_port "analog_samples", "/std/vector<raw_io/Analog>"
   output_port "temperatures", "/std/vector<base/samples/Temperature>"

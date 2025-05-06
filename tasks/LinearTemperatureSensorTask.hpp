@@ -30,7 +30,7 @@ namespace raw_io {
 
     protected:
     private:
-        TemperatureSensorSettings m_temperature_sensor_config;
+        LinearTemperatureSensorSettings m_temperature_sensor_config;
 
     public:
         /** TaskContext constructor for LinearTemperatureSensorTask

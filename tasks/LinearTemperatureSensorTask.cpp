@@ -17,7 +17,7 @@ LinearTemperatureSensorTask::~LinearTemperatureSensorTask()
 // Convert the voltage in temperature
 Temperature temperature(base::Time const& timestamp,
     double voltage,
-    TemperatureSensorSettings const& sensor_config)
+    LinearTemperatureSensorSettings const& sensor_config)
 {
     return Temperature::fromKelvin(timestamp,
         sensor_config.min_temperature.kelvin +
@@ -29,7 +29,7 @@ Temperature temperature(base::Time const& timestamp,
 
 std::vector<Temperature> convertVoltagesToTemperatures(base::Time const& timestamp,
     std::vector<raw_io::Analog> const& voltages,
-    TemperatureSensorSettings const& sensor_config)
+    LinearTemperatureSensorSettings const& sensor_config)
 {
     std::vector<Temperature> temperatures;
     for (auto const& voltage : voltages) {
