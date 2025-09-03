@@ -5,11 +5,13 @@ import_types_from "base"
 using_library "raw_io"
 import_types_from "raw_io/Analog.hpp"
 import_types_from "raw_io/Digital.hpp"
+import_types_from "raw_io/PWMDutyDurations.hpp"
 
 import_types_from "raw_ioTypes.hpp"
 
-typekit.export_types "raw_io/Analog", "raw_io/Digital"
-typekit.export_types "/std/vector<raw_io/Analog>", "/std/vector<raw_io/Digital>"
+typekit.export_types "raw_io/Analog", "raw_io/Digital", "raw_io/PWMDutyDurations"
+typekit.export_types "/std/vector<raw_io/Analog>", "/std/vector<raw_io/Digital>",
+                     "/std/vector<raw_io/PWMDutyDurations>"
 
 task_context "LinearTemperatureSensorTask" do
   # This is the default from now on, and should not be removed. Rock will
