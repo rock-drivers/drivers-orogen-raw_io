@@ -58,7 +58,7 @@ bool LinearTemperatureSensorTask::startHook()
 void LinearTemperatureSensorTask::updateHook()
 {
     std::vector<raw_io::Analog> voltages;
-    if (_analog_samples.read(voltages) == RTT::NewData) {
+    while (_analog_samples.read(voltages) == RTT::NewData) {
         std::vector<Temperature> temperatures =
             convertVoltagesToTemperatures(base::Time::now(),
                 voltages,

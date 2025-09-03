@@ -13,15 +13,14 @@ typekit.export_types "raw_io/Analog", "raw_io/Digital", "raw_io/PWMDutyDurations
 typekit.export_types "/std/vector<raw_io/Analog>", "/std/vector<raw_io/Digital>",
                      "/std/vector<raw_io/PWMDutyDurations>"
 
+# Task that converts analog readings into temperatures, assuming a linear response
 task_context "LinearTemperatureSensorTask" do
-  # This is the default from now on, and should not be removed. Rock will
-  # transition to a setup where all components use a configuration step.
-  needs_configuration
+    needs_configuration
 
-  property "sensor_config", "/raw_io/LinearTemperatureSensorSettings"
+    property "sensor_config", "/raw_io/LinearTemperatureSensorSettings"
 
-  input_port "analog_samples", "/std/vector<raw_io/Analog>"
-  output_port "temperatures", "/std/vector<base/samples/Temperature>"
+    input_port "analog_samples", "/std/vector<raw_io/Analog>"
+    output_port "temperatures", "/std/vector<base/samples/Temperature>"
 
-  periodic 0.1
+    port_driven
 end
