@@ -6,6 +6,7 @@ using_library "raw_io"
 import_types_from "raw_io/Analog.hpp"
 import_types_from "raw_io/Digital.hpp"
 import_types_from "raw_io/PWMDutyDurations.hpp"
+import_types_from "raw_io/PWMServoConfiguration.hpp"
 
 import_types_from "raw_ioTypes.hpp"
 
@@ -21,6 +22,28 @@ task_context "LinearTemperatureSensorTask" do
 
     input_port "analog_samples", "/std/vector<raw_io/Analog>"
     output_port "temperatures", "/std/vector<base/samples/Temperature>"
+
+    port_driven
+end
+
+# Task that generates a PWM command to control a PWM-controlled servo
+#
+# See documentation of PWMServoConfiguration for the overall model
+#
+# The task will saturate input angles that are beyond the configured range
+task_context "PWMServoTask" do
+    property "conf", "/std/vector</raw_io/PWMServoConfiguration>"
+
+    # Joint command
+    #
+    # Must be of the same size than conf and have the position set.
+    #
+    # The task saturates angles that are beyond the configured range
+    input_port "cmd", "/base/samples/Joints"
+
+    output_port "pwm", "/raw_io/PWMDutyDurations"
+
+    exception_states "INPUT_SIZE_MISMATCH", "INPUT_NOT_POSITION"
 
     port_driven
 end
