@@ -5,21 +5,45 @@ import_types_from "base"
 using_library "raw_io"
 import_types_from "raw_io/Analog.hpp"
 import_types_from "raw_io/Digital.hpp"
+import_types_from "raw_io/PWMDutyDurations.hpp"
+import_types_from "raw_io/PWMServoConfiguration.hpp"
 
 import_types_from "raw_ioTypes.hpp"
 
-typekit.export_types "raw_io/Analog", "raw_io/Digital"
-typekit.export_types "/std/vector<raw_io/Analog>", "/std/vector<raw_io/Digital>"
+typekit.export_types "raw_io/Analog", "raw_io/Digital", "raw_io/PWMDutyDurations"
+typekit.export_types "/std/vector<raw_io/Analog>", "/std/vector<raw_io/Digital>",
+                     "/std/vector<raw_io/PWMDutyDurations>"
 
+# Task that converts analog readings into temperatures, assuming a linear response
 task_context "LinearTemperatureSensorTask" do
-  # This is the default from now on, and should not be removed. Rock will
-  # transition to a setup where all components use a configuration step.
-  needs_configuration
+    needs_configuration
 
-  property "sensor_config", "/raw_io/LinearTemperatureSensorSettings"
+    property "sensor_config", "/raw_io/LinearTemperatureSensorSettings"
 
-  input_port "analog_samples", "/std/vector<raw_io/Analog>"
-  output_port "temperatures", "/std/vector<base/samples/Temperature>"
+    input_port "analog_samples", "/std/vector<raw_io/Analog>"
+    output_port "temperatures", "/std/vector<base/samples/Temperature>"
 
-  periodic 0.1
+    port_driven
+end
+
+# Task that generates a PWM command to control a PWM-controlled servo
+#
+# See documentation of PWMServoConfiguration for the overall model
+#
+# The task will saturate input angles that are beyond the configured range
+task_context "PWMServoTask" do
+    property "conf", "/std/vector</raw_io/PWMServoConfiguration>"
+
+    # Joint command
+    #
+    # Must be of the same size than conf and have the position set.
+    #
+    # The task saturates angles that are beyond the configured range
+    input_port "cmd", "/base/samples/Joints"
+
+    output_port "pwm", "/raw_io/PWMDutyDurations"
+
+    exception_states "INPUT_SIZE_MISMATCH", "INPUT_NOT_POSITION"
+
+    port_driven
 end
