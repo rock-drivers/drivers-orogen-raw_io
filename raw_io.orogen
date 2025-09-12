@@ -41,9 +41,26 @@ task_context "PWMServoTask" do
     # The task saturates angles that are beyond the configured range
     input_port "cmd", "/base/samples/Joints"
 
+    # PWM command corresponding to 'cmd'
     output_port "pwm", "/raw_io/PWMDutyDurations"
 
     exception_states "INPUT_SIZE_MISMATCH", "INPUT_NOT_POSITION"
+
+    port_driven
+end
+
+# Task that generates a PWM command to control a PWM-controlled servo
+#
+# See documentation of PWMServoConfiguration for the overall model
+#
+# The task will saturate input angles that are beyond the configured range
+task_context "PWMServoFeedbackTask" do
+    property "conf", "/std/vector</raw_io/PWMServoConfiguration>"
+
+    input_port "pwm", "/raw_io/PWMDutyDurations"
+    output_port "joints", "/base/samples/Joints"
+
+    exception_states "INPUT_SIZE_MISMATCH"
 
     port_driven
 end
