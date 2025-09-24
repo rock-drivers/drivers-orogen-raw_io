@@ -1,6 +1,7 @@
 /* Generated from orogen/lib/orogen/templates/tasks/Task.cpp */
 
 #include "PWMServoTask.hpp"
+#include <base-logging/Logging.hpp>
 
 using namespace raw_io;
 
@@ -44,6 +45,8 @@ void PWMServoTask::updateHook()
 
     while(_cmd.read(m_cmd) == RTT::NewData) {
         if (m_cmd.size() != m_servos.size()) {
+            LOG_ERROR_S << "expected input of size " << m_servos.size() << "but got "
+                        << m_cmd.size();
             exception(INPUT_SIZE_MISMATCH);
             return;
         }

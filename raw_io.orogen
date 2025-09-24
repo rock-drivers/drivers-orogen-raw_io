@@ -1,6 +1,8 @@
 name "raw_io"
 version "1"
 
+using_library "base-logging", typekit: false
+
 import_types_from "base"
 using_library "raw_io"
 import_types_from "raw_io/Analog.hpp"
