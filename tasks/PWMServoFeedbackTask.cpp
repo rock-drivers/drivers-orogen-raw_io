@@ -25,10 +25,13 @@ bool PWMServoFeedbackTask::configureHook()
         return false;
 
     m_conf = _conf.get();
+
+    std::vector<PWMServo> servos;
     for (auto const& conf : _conf.get()) {
-        m_servos.emplace_back(PWMServo{conf});
+        servos.emplace_back(PWMServo{conf});
     }
-    m_joints.resize(m_servos.size());
+    m_joints.resize(servos.size());
+    m_servos = servos;
     return true;
 }
 bool PWMServoFeedbackTask::startHook()

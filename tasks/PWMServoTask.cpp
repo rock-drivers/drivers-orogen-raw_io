@@ -25,12 +25,14 @@ bool PWMServoTask::configureHook()
     if (! PWMServoTaskBase::configureHook())
         return false;
 
-    m_servos.clear();
+    std::vector<PWMServo> servos;
     for (auto const& conf: _conf.get()) {
-        m_servos.emplace_back(PWMServo{conf});
+        servos.emplace_back(PWMServo{conf});
     }
-    m_cmd.resize(m_servos.size());
-    m_pwm.on_durations.reserve(m_servos.size());
+    m_cmd.resize(servos.size());
+    m_pwm.on_durations.reserve(servos.size());
+    m_servos = servos;
+
     return true;
 }
 bool PWMServoTask::startHook()
