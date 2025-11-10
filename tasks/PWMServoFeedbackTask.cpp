@@ -52,9 +52,18 @@ void PWMServoFeedbackTask::updateHook()
             return;
         }
 
-        for (size_t i = 0; i < m_servos.size(); ++i) {
-            m_joints.elements[i].position =
-                m_servos[i].fromPWM(m_pwm.on_durations[i]).getRad();
+        bool all_valid = true;
+        for (size_t i = 0; all_valid && i < m_servos.size(); ++i) {
+            auto position = m_servos[i].fromPWM(m_pwm.on_durations[i]).getRad();
+            m_joints.elements[i].position = position;
+
+            if (base::isUnknown(position)) {
+                all_valid = false;
+            }
+        }
+
+        if (!all_valid) {
+            continue;
         }
 
         m_joints.time = m_pwm.time;
