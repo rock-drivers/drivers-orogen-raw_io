@@ -52,15 +52,28 @@ void PWMServoFeedbackTask::updateHook()
             return;
         }
 
-        for (size_t i = 0; i < m_servos.size(); ++i) {
-            m_joints.elements[i].position =
-                m_servos[i].fromPWM(m_pwm.on_durations[i]).getRad();
+        if (updateJoints(m_servos, m_joints, m_pwm)) {
+            m_joints.time = m_pwm.time;
+            _joints.write(m_joints);
         }
-
-        m_joints.time = m_pwm.time;
-        _joints.write(m_joints);
     }
 }
+
+bool PWMServoFeedbackTask::updateJoints(std::vector<PWMServo> const& servos,
+    base::samples::Joints& joints,
+    raw_io::PWMDutyDurations const& pwm)
+{
+    for (size_t i = 0; i < pwm.on_durations.size(); ++i) {
+        auto position = servos[i].fromPWM(pwm.on_durations[i]).getRad();
+        if (base::isUnknown(position)) {
+            return false;
+        }
+
+        joints.elements[i].position = position;
+    }
+    return true;
+}
+
 void PWMServoFeedbackTask::errorHook()
 {
     PWMServoFeedbackTaskBase::errorHook();

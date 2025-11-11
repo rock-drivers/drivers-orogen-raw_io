@@ -59,9 +59,15 @@ describe OroGen.raw_io.PWMServoTask do
         end
     end
 
+    it "does not output anything if one of the inputs is invalid" do
+        input = { on_durations: [700, 950] }
+        expect_execution { syskit_write task.pwm_port, input }
+            .to_have_no_new_sample(task.joints_port, at_least_during: 0.2)
+    end
+
     it "forwards the timestamp" do
         time = Time.now.floor(6)
-        pwm = { time: time, on_durations: [0, 0] }
+        pwm = { time: time, on_durations: [250, 950] }
         joints =
             expect_execution { syskit_write task.pwm_port, pwm }
             .to_have_one_new_sample(task.joints_port)

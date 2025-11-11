@@ -39,6 +39,11 @@ argument.
         base::samples::Joints m_joints;
         PWMDutyDurations m_pwm;
 
+        static bool updateJoints(
+            std::vector<PWMServo> const& servos,
+            base::samples::Joints& joints,
+            raw_io::PWMDutyDurations const& pwm);
+
     public:
         /** TaskContext constructor for PWMServoFeedbackTask
          * \param name Name of the task. This name needs to be unique to make it
